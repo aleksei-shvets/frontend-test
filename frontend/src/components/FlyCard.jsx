@@ -1,10 +1,12 @@
-const PointsComponent = () => (
-  <div>
-    <span>erferf</span>
-    <span>erferge</span>
-    <span className="airport-code">ererg</span>
+const PointsComponent = ({ startAirport, startCity, startAirportCode, finishAirport, finishCity, finishAirportCode, }) => (
+  <div className="">
+    <span>{`startCity, `}</span>
+    <span>{startAirport}</span>
+    <span className="airport-code">{`(${startAirportCode})`}</span>
     <img src="../../public/icons/arrow-narrow-right-svgrepo-com.svg" alt="" />
-
+    <span>{`finishCity, `}</span>
+    <span>{finishAirport}</span>
+    <span className="airport-code">{`(${finishAirportCode})`}</span>
   </div>
 );
 
