@@ -2,9 +2,9 @@
 
 #### install and run App
 
-- Clone
+- Clone the repository to your local machin
 
-- 
+- Run the commands
 
 ```
 make install
