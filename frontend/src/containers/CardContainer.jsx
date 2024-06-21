@@ -9,15 +9,6 @@ import carrierFilter from '../helpers/carrierFilter.js';
 import transferFilter from '../helpers/transferFilter.js';
 import mock from '../mock/flights.json';
 
-const renderCards = (allFlights) => allFlights.map((item) => {
-  const params = genTicketParams(item);
-  return (
-    <li key={item.flightToken}>
-      <Card params={params} />
-    </li>
-  );
-});
-
 const CardContaiiner = () => {
   const sortType = useSelector(getSortType);
   const filters = useSelector(getFilters);
@@ -25,6 +16,16 @@ const CardContaiiner = () => {
   const allFlights = mock.result.flights;
 
   const [sortedFlights, setSortedFlights] = useState(allFlights);
+  const [ping, setPing] = useState(10);
+
+  const renderCards = (flights) => flights.slice(0, ping).map((item) => {
+    const params = genTicketParams(item);
+    return (
+      <li key={item.flightToken}>
+        <Card params={params} />
+      </li>
+    );
+  });
 
   useEffect(() => {
     const {
@@ -46,6 +47,10 @@ const CardContaiiner = () => {
     }
   }, [sortType, filters]);
 
+  const handlePing = () => {
+    setPing((prevValues) => prevValues + 10);
+  };
+
   return (
     <>
       <div className="cadrs-container">
@@ -54,7 +59,7 @@ const CardContaiiner = () => {
         </ul>
       </div>
       <div className="cadrs-container-footer flex flex-row">
-        <button type="button">Показать еще</button>
+        <button onClick={handlePing} type="button">Показать еще</button>
       </div>
     </>
   );
