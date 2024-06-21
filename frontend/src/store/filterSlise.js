@@ -5,6 +5,7 @@ const filterSlice = createSlice({
   initialState: {
     sortType: '',
     filters: {},
+    minPrices: {},
   },
   reducers: {
     setSortType: (state, action) => {
@@ -18,6 +19,6 @@ const filterSlice = createSlice({
 
 export const getSortType = (state) => state.filter.sortType;
 export const getFilters = (state) => state.filter.filters;
-export const { setFilters, setSortType } = filterSlice.actions;
+export const { setFilters, setSortType, setMinPrices } = filterSlice.actions;
 
 export default filterSlice.reducer;

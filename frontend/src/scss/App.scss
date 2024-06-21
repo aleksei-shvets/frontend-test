@@ -58,29 +58,160 @@
   }
 }
 
+.carrier-item {
+  justify-content: space-between;
+  &-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline;
+    padding-right: 5px;
+    max-width: 70%;
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+
 .invalid {
   color: red;
   font-weight: 300;
 }
 
 .cardBox {
-  max-width: 60%;
+  width: 40%;
+  margin: 0 auto;
+  margin-bottom: 60px;
 }
 
 .cardHeader {
   background: #165f9e;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  &_price {
+    justify-content: end;
+    &_amount {
+      font-size: 20px;
+    }
+    &_text {
+      font-size: 10px;
+    }
+  }
 }
 
-.line {
-  height: 2px;
-  border: 1px solid #165f9e
+.between-tickets-line {
+  height: 0px;
+  border: 1px solid #165f9e;
 }
 
 .cardFooter {
   background: #e09a47;
+  text-transform: uppercase;
+  height: 50px;
+  justify-content: center;
+  align-items:center;
+  color: white;
 }
 
 .airport-code {
   color: #476ad1;
 }
 
+.main-container {
+  display: grid;
+  grid-template-rows: 80px 1fr auto;
+  grid-template-columns: 350px 1fr auto;
+  max-height: 100vh;
+}
+
+.aside {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+.cadrs-container {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.px-15 {
+  padding: 0 15px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.bottom-border {
+  border-bottom: 1px solid #d3d8e6;
+}
+
+.card-section {
+  width: calc(100% - 20px);
+}
+
+.py-10 {
+  padding: 10px 0;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+
+.line-box {
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  .centred-line {
+    height: 0px;
+    border-bottom: 1px solid #a4a6ad;
+    width: 100%;
+  }
+}
+
+.is-not-transfer-line {
+  height: 0px;
+  border-bottom: 1px solid #a4a6ad;
+  margin: 0 50px;
+}
+
+.transfer-text {
+  display: inline-block;
+  text-wrap: nowrap;
+  margin: 0 10px;
+  color: #e09a47;
+}
+
+.aircarrier {
+  font-size: 14px;
+}
+
+.points-box {
+  align-items: end;
+  line-height: 20px;
+}
+
+.arrow-icon {
+  position: relative;
+  bottom: -4px;
+}
+
+.logo-carrier {
+  height: 80%;
+  width: auto;
+}

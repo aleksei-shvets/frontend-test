@@ -1,14 +1,14 @@
-import FilterContainer from '../containers/FilterContainer';
-import Card from '../components/FlyCard.jsx';
+import FilterContainer from '../containers/FilterContainer.jsx';
+import CardContainer from '../containers/CardContainer.jsx';
 
 const Home = () => {
   console.log('');
 
   return (
     <main>
-      <div>
+      <div className="main-container">
         <FilterContainer />
-        <Card />
+        <CardContainer />
       </div>
     </main>
   );
