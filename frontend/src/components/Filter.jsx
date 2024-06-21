@@ -293,7 +293,7 @@ const Filter = () => {
             <span>{`от ${minPrices.TK} р.`}</span>
           </div>
 
-          <div className=" mb-5carrier-item flex flex-row">
+          <div className=" mb-5 carrier-item flex flex-row">
             <div className="carrier-item-label">
               <input
                 type="checkbox"
