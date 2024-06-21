@@ -71,17 +71,17 @@ const DatesComponent = ({
 
 }) => (
   <div className="">
-    <div className="flex flex-row px-15 ml-10 py-10 ">
+    <div className="date-box flex flex-row px-15 ml-10 py-10 mr-10">
       <div>
-        <span>{timeFrom}</span>
-        <span>{dateFrom}</span>
+        <span className="mr-5">{timeFrom}</span>
+        <span className="date">{dateFrom}</span>
       </div>
       <div>
-        <Clock4 size={16} />
+        <Clock4 className="clock-item mr-5 flex flex-row" size={16} />
         <span>{duration}</span>
       </div>
       <div>
-        <span>{dateTo}</span>
+        <span className="date mr-5">{dateTo}</span>
         <span>{timeTo}</span>
       </div>
     </div>

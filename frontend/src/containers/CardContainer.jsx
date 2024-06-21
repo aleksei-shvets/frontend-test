@@ -47,11 +47,16 @@ const CardContaiiner = () => {
   }, [sortType, filters]);
 
   return (
-    <div className="cadrs-container">
-      <ul>
-        {renderCards(sortedFlights)}
-      </ul>
-    </div>
+    <>
+      <div className="cadrs-container">
+        <ul>
+          {renderCards(sortedFlights)}
+        </ul>
+      </div>
+      <div className="cadrs-container-footer flex flex-row">
+        <button type="button">Показать еще</button>
+      </div>
+    </>
   );
 };
 
