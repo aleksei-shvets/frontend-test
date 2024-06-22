@@ -8,6 +8,18 @@ import mock from '../mock/flights.json';
 const Filter = () => {
   const allFlights = mock.result.flights;
   const [minPrices, setMinPrices] = useState('');
+  const [showedFilterd, setShowedFiltered] = useState({
+    KL: true,
+    AF: true,
+    SU: true,
+    TK: true,
+    AY: true,
+    BT: true,
+    AZ: true,
+    PC: true,
+    SN: true,
+    LO: true,
+  });
   const [filterValues, setFilterValues] = useState({
     oneTransfer: false,
     withoutTransfer: false,
@@ -26,6 +38,58 @@ const Filter = () => {
       LO: false,
     },
   });
+
+  useEffect(() => {
+    const { oneTransfer, withoutTransfer, carriers } = filterValues;
+
+    if (!oneTransfer && !withoutTransfer) {
+      setShowedFiltered(Object.keys(carriers).reduce((acc, carrier) => {
+        acc[carrier] = true;
+        return acc;
+      }, {}));
+      return;
+    }
+
+    const showed = allFlights.reduce((acc, item) => {
+      const [trip, refund] = item.flight.legs;
+
+      if (oneTransfer && !withoutTransfer) {
+        if (trip.segments.length > 1 || refund.segments.length > 1) {
+          acc.add(item.flight.carrier.airlineCode);
+        }
+        return acc;
+      }
+
+      if (!oneTransfer && withoutTransfer) {
+        if (trip.segments.length === 1 || refund.segments.length === 1) {
+          acc.add(item.flight.carrier.airlineCode);
+        }
+        return acc;
+      }
+
+      if (oneTransfer && withoutTransfer) {
+        const allCarriers = Object.keys(carriers);
+        allCarriers.forEach((carrier) => acc.add(carrier));
+        return acc;
+      }
+
+      return acc;
+    }, new Set());
+
+    setShowedFiltered((prev) => {
+      const newShowedFiltered = Object.keys(carriers).reduce((acc, carrier) => {
+        acc[carrier] = showed.has(carrier);
+        return acc;
+      }, {});
+
+      return {
+        ...prev,
+        ...newShowedFiltered,
+      };
+    });
+  }, [filterValues, allFlights]);
+
+  console.log(showedFilterd);
 
   const dispatch = useDispatch();
 
@@ -237,145 +301,165 @@ const Filter = () => {
       <div className="sort-box">
         <h3 className="title">Авиакомании</h3>
         <fieldset>
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="KL"
-                name="KL"
-                checked={filterValues.KL}
-                onChange={handleKL}
-              />
-              <label className="carrier-item-label" htmlFor="KL">KLM</label>
+          {showedFilterd.KL ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="KL"
+                  name="KL"
+                  checked={filterValues.KL}
+                  onChange={handleKL}
+                />
+                <label className="carrier-item-label" htmlFor="KL">KLM</label>
+              </div>
+              <span>{`от ${minPrices.KL} р.`}</span>
             </div>
-            <span>{`от ${minPrices.KL} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="AF"
-                name="AF"
-                checked={filterValues.AF}
-                onChange={handleAF}
-              />
-              <label className="carrier-item-label" htmlFor="AF">Air France</label>
+          {showedFilterd.AF ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="AF"
+                  name="AF"
+                  checked={filterValues.AF}
+                  onChange={handleAF}
+                />
+                <label className="carrier-item-label" htmlFor="AF">Air France</label>
+              </div>
+              <span>{`от ${minPrices.AF} р.`}</span>
             </div>
-            <span>{`от ${minPrices.AF} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="SU"
-                name="SU"
-                checked={filterValues.SU}
-                onChange={handleSU}
-              />
-              <label htmlFor="SU">Аэрофлот - российские авиалинии</label>
+          {showedFilterd.SU ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="SU"
+                  name="SU"
+                  checked={filterValues.SU}
+                  onChange={handleSU}
+                />
+                <label htmlFor="SU">Аэрофлот - российские авиалинии</label>
+              </div>
+              <span>{`от ${minPrices.SU} р.`}</span>
             </div>
-            <span>{`от ${minPrices.SU} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="TK"
-                name="TK"
-                checked={filterValues.TK}
-                onChange={handleTK}
-              />
-              <label className="carrier-item-label" htmlFor="TK">TURK HAVA YOLLARI A.O.</label>
+          {showedFilterd.TK ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="TK"
+                  name="TK"
+                  checked={filterValues.TK}
+                  onChange={handleTK}
+                />
+                <label className="carrier-item-label" htmlFor="TK">TURK HAVA YOLLARI A.O.</label>
+              </div>
+              <span>{`от ${minPrices.TK} р.`}</span>
             </div>
-            <span>{`от ${minPrices.TK} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className=" mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="AY"
-                name="AY"
-                checked={filterValues.AY}
-                onChange={handleAY}
-              />
-              <label className="carrier-item-label" htmlFor="AY">Finnair Oyj</label>
+          {showedFilterd.AY ? (
+            <div className=" mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="AY"
+                  name="AY"
+                  checked={filterValues.AY}
+                  onChange={handleAY}
+                />
+                <label className="carrier-item-label" htmlFor="AY">Finnair Oyj</label>
+              </div>
+              <span>{`от ${minPrices.AY} р.`}</span>
             </div>
-            <span>{`от ${minPrices.AY} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="BT"
-                name="BT"
-                checked={filterValues.BT}
-                onChange={handleBT}
-              />
-              <label className="carrier-item-label" htmlFor="BT">Air Baltic Corporation A/S</label>
+          {showedFilterd.BT ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="BT"
+                  name="BT"
+                  checked={filterValues.BT}
+                  onChange={handleBT}
+                />
+                <label className="carrier-item-label" htmlFor="BT">Air Baltic Corporation A/S</label>
+              </div>
+              <span>{`от ${minPrices.BT} р.`}</span>
             </div>
-            <span>{`от ${minPrices.BT} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="AZ"
-                name="AZ"
-                checked={filterValues.AZ}
-                onChange={handleAZ}
-              />
-              <label className="carrier-item-label" htmlFor="AZ">Alitalia Societa Aerea Italiana</label>
+          {showedFilterd.AZ ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="AZ"
+                  name="AZ"
+                  checked={filterValues.AZ}
+                  onChange={handleAZ}
+                />
+                <label className="carrier-item-label" htmlFor="AZ">Alitalia Societa Aerea Italiana</label>
+              </div>
+              <span>{`от ${minPrices.AZ} р.`}</span>
             </div>
-            <span>{`от ${minPrices.AZ} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="PC"
-                name="PC"
-                checked={filterValues.PC}
-                onChange={handlePC}
-              />
-              <label className="carrier-item-label" htmlFor="PC">Pegasus Hava Tasimaciligi A.S.</label>
+          {showedFilterd.PC ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="PC"
+                  name="PC"
+                  checked={filterValues.PC}
+                  onChange={handlePC}
+                />
+                <label className="carrier-item-label" htmlFor="PC">Pegasus Hava Tasimaciligi A.S.</label>
+              </div>
+              <span>{`от ${minPrices.PC} р.`}</span>
             </div>
-            <span>{`от ${minPrices.PC} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="SN"
-                name="SN"
-                checked={filterValues.SN}
-                onChange={handleSN}
-              />
-              <label className="carrier-item-label" htmlFor="SN">Brussels Airlines</label>
+          {showedFilterd.SN ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="SN"
+                  name="SN"
+                  checked={filterValues.SN}
+                  onChange={handleSN}
+                />
+                <label className="carrier-item-label" htmlFor="SN">Brussels Airlines</label>
+              </div>
+              <span>{`от ${minPrices.SN} р.`}</span>
             </div>
-            <span>{`от ${minPrices.SN} р.`}</span>
-          </div>
+          ) : null}
 
-          <div className="mb-5 carrier-item flex flex-row">
-            <div className="carrier-item-label">
-              <input
-                type="checkbox"
-                id="LO"
-                name="LO"
-                checked={filterValues.LO}
-                onChange={handleLO}
-              />
-              <label className="carrier-item-label" htmlFor="LO">LOT Polish Airlines</label>
+          {showedFilterd.LO ? (
+            <div className="mb-5 carrier-item flex flex-row">
+              <div className="carrier-item-label">
+                <input
+                  type="checkbox"
+                  id="LO"
+                  name="LO"
+                  checked={filterValues.LO}
+                  onChange={handleLO}
+                />
+                <label className="carrier-item-label" htmlFor="LO">LOT Polish Airlines</label>
+              </div>
+              <span>{`от ${minPrices.LO} р.`}</span>
             </div>
-            <span>{`от ${minPrices.LO} р.`}</span>
-          </div>
+          ) : null}
         </fieldset>
       </div>
     </section>
